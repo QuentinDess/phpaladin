@@ -1,0 +1,34 @@
+{
+  "name": "phpaladin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A fantasy-themed GitHub Probot that reviews pull requests for PHP code quality. PHPaladin is your valiant code guardian — it automatically checks pull requests for compliance with tools like PHPStan, PHP CS Fixer, Deptrac, PHP MD, and your custom ruleset. With the spirit of a paladin and the precision of a linter, it ensures every PR upholds the sacred laws of clean, maintainable PHP.",
+  "author": "QuentinDess",
+  "license": "ISC",
+  "homepage": "https://github.com//",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "probot run ./lib/index.js",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "pg-protocol": "^1.3.0",
+    "probot": "^13.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "nock": "^14.0.0-beta.5",
+    "smee-client": "^2.0.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "type": "module"
+}
