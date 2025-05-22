@@ -1,16 +1,21 @@
-import { Probot } from "probot";
+import { Probot, ApplicationFunctionOptions} from "probot";
+import { Response } from "express";
+import * as express from "express";
+export default (app: Probot,{ getRouter }:ApplicationFunctionOptions) => {
+  // Add a simple GET route on /ping
+  if(!getRouter) return;
 
-export default (app: Probot) => {
+  const router = getRouter();
+  router.use(express.static("public"));
+
+  router.get("/ping", (res: Response) => {
+    res.send("pong");
+  });
+
   app.on("issues.opened", async (context) => {
     const issueComment = context.issue({
       body: "Thanks for opening this Issue!",
     });
     await context.octokit.issues.createComment(issueComment);
-
   });
-  // For more information on building apps:
-  // https://probot.github.io/docs/
-
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
 };
