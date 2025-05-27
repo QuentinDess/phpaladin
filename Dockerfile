@@ -15,25 +15,27 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 COPY . .  
 
 RUN npm run build
+
 RUN npm cache clean --force
+
 
 RUN chown -R 1000:1000 /usr/src/app
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+
+CMD ["node", "lib/main.js"]
 
 
 ### Development image (optional)
 FROM build AS development
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-    npm set cache /usr/src/app/.npm && \
-    npm ci
+RUN --mount=type=cache,target=/app/.npm \
+    npm set cache /app/.npm && \
+    npm install
 
 COPY . .
 
-RUN npm run build
-
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+
+CMD ["npx", "nodemon"]

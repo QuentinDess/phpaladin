@@ -1,5 +1,6 @@
-import { Probot, ApplicationFunctionOptions} from "probot";
-import { Response } from "express";
+import { Probot} from "probot";
+import type { ApplicationFunctionOptions } from "probot";
+
 import * as express from "express";
 export default (app: Probot,{ getRouter }:ApplicationFunctionOptions) => {
   // Add a simple GET route on /ping
@@ -7,10 +8,11 @@ export default (app: Probot,{ getRouter }:ApplicationFunctionOptions) => {
 
   const router = getRouter();
   router.use(express.static("public"));
-
-  router.get("/ping", (res: Response) => {
-    res.send("pong");
+  
+  router.get("/test", (_req: express.Request, res: express.Response) => {
+    res.send("paing");
   });
+  
 
   app.on("issues.opened", async (context) => {
     const issueComment = context.issue({
