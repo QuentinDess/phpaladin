@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 ### Stage 2: Production build
-FROM build AS production
+FROM build AS production_build
 
 ENV NODE_ENV="production"
 
@@ -18,12 +18,21 @@ RUN npm run build
 
 RUN npm cache clean --force
 
+FROM gcr.io/distroless/nodejs20 AS deploy
 
-RUN chown -R 1000:1000 /usr/src/app
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy only the necessary files from the build stage
+COPY --from=production_build /usr/src/app/lib ./lib
+COPY --from=production_build /usr/src/app/node_modules ./node_modules
+COPY --from=production_build /usr/src/app/package*.json ./
+
+# Expose the application port
 EXPOSE 3000
 
-CMD ["node", "lib/main.js"]
-
+# Start the application
+CMD ["lib/main.js"]
 
 ### Development image (optional)
 FROM build AS development
