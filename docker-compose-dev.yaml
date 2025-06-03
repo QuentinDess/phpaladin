@@ -1,0 +1,13 @@
+services: 
+  phpaladin-probot:
+    image: phpaladin:development
+    container_name: phpaladin-probot-dev
+    build:
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - "${PWD}/private-key.pem:/app/private-key.pem"
