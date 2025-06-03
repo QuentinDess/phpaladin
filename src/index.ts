@@ -1,5 +1,7 @@
 import { Probot} from "probot";
 import type { ApplicationFunctionOptions } from "probot";
+import Docker from 'dockerode';
+import Stream from 'stream';
 
 import * as express from "express";
 export default (app: Probot,{ getRouter }:ApplicationFunctionOptions) => {
@@ -15,9 +17,78 @@ export default (app: Probot,{ getRouter }:ApplicationFunctionOptions) => {
   
 
   app.on("issues.opened", async (context) => {
+    console
+    const randomWord = await runDummyContainer();
+    console.log("Random word generated:", randomWord);
     const issueComment = context.issue({
-      body: "Thanks for opening this Issue!",
+      body: "Random word generated from Docker container: " + randomWord,
     });
+   
     await context.octokit.issues.createComment(issueComment);
   });
+  async function runDummyContainer(): Promise<string> {
+    const docker = new Docker(
+      {
+        host: process.env.DOCKER_HOST,
+        protocol : 'http',
+        port: parseInt(process.env.DOCKER_PORT || "2375", 10),
+      }
+    )
+    await new Promise((resolve, reject) => {
+      docker.pull('alpine', (err:any, stream:any) => {
+        if (err) return reject(err);
+        docker.modem.followProgress(stream, onFinished);
+  
+        function onFinished(err: any) {
+          if (err) return reject(err);
+          resolve(null);
+        }
+  
+      });
+    });
+  
+
+    const container = await docker.createContainer({
+      Image: 'alpine',
+      Cmd: ['sh', '-c', 'tr -dc a-z </dev/urandom | head -c 6; echo'],
+      Tty: false,
+      AttachStdout: true,
+      AttachStderr: true,
+    });
+  
+    await container.start();
+  
+    return new Promise<string>((resolve, reject) => {
+      let output = '';
+      const logStream = new Stream.PassThrough();
+  
+      logStream.on('data', (chunk: Buffer) => {
+        output += chunk.toString('utf8');
+      });
+  
+      container.logs(
+        {
+          follow: true,
+          stdout: true,
+          stderr: true,
+        },
+        (err:any, stream:any) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+  
+          container.modem.demuxStream(stream, logStream, logStream);
+  
+          stream.on('end', async () => {
+            await container.remove();
+            resolve(output.trim());
+          });
+  
+          stream.on('error', reject);
+        }
+      );
+    });
+  }
+  
 };

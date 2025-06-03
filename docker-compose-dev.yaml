@@ -1,5 +1,9 @@
+networks:
+  internal:
 services: 
   phpaladin-probot:
+    networks:
+      - internal
     image: phpaladin:development
     container_name: phpaladin-probot-dev
     build:
@@ -11,7 +15,17 @@ services:
       - .env
     volumes:
       - "${PWD}/private-key.pem:/app/private-key.pem"
+      - type: bind
+        source: ./src
+        target: /app/src
+      - type: bind
+        target: /app/node_modules
+        source: ./node_modules
+    depends_on:
+      - docker-in-docker
   docker-in-docker:
+    networks:
+      - internal
     container_name: docker-in-docker
     image: docker:dind
     privileged: true
