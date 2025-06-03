@@ -11,3 +11,12 @@ services:
       - .env
     volumes:
       - "${PWD}/private-key.pem:/app/private-key.pem"
+  docker-in-docker:
+    container_name: docker-in-docker
+    image: docker:dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    expose:
+      - 2375
+    command: ["dockerd", "-H", "tcp://0.0.0.0:2375"]
