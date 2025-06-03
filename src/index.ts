@@ -13,6 +13,7 @@ export default (app: Probot, { getRouter }: ApplicationFunctionOptions) => {
 
   router.get('/test', (_req: express.Request, res: express.Response) => {
     res.send('paing');
+    console.log('test');
   });
 
   app.on('issues.opened', async (context) => {
