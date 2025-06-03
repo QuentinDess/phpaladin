@@ -42,3 +42,15 @@ ssh:
 		echo "Invalid mode. Use 'dev' or 'deploy'."; \
 		exit 1; \
 	fi
+# View logs of the container
+.PHONY: logs
+logs:
+	@echo "Displaying logs of the container..."
+	@if [ "$(MODE)" = "dev" ]; then \
+		docker logs -f phpaladin-probot-dev; \
+	elif [ "$(MODE)" = "deploy" ]; then \
+		docker logs -f phpaladin-probot; \
+	else \
+		echo "Invalid mode. Use 'dev' or 'deploy'."; \
+		exit 1; \
+	fi
