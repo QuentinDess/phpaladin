@@ -17,8 +17,6 @@ export default (app: Probot, { getRouter }: ApplicationFunctionOptions) => {
 
   app.on('issues.opened', async (context) => {
     const randomWord = await runDummyContainer();
-    console.log('Random word generated:', randomWord);
-    console.log('test');
     const issueComment = context.issue({
       body: 'Random word generated from Docker container: ' + randomWord,
     });
