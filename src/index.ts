@@ -63,6 +63,7 @@ export default (app: Probot, { getRouter }: ApplicationFunctionOptions) => {
         { follow: true, stdout: true, stderr: true },
         (err: Error, stream: NodeJS.ReadableStream | undefined) => {
           if (err || !stream) {
+            err = err || new Error('No stream returned');
             reject(err);
             return;
           }
