@@ -60,11 +60,7 @@ export default (app: Probot, { getRouter }: ApplicationFunctionOptions) => {
       });
 
       container.logs(
-        {
-          follow: true,
-          stdout: true,
-          stderr: true,
-        },
+        { follow: true, stdout: true, stderr: true },
         (err: Error, stream: NodeJS.ReadableStream | undefined) => {
           if (err || !stream) {
             reject(err);
