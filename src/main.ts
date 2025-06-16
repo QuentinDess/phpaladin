@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { run } from 'probot';
-import app from './index.js';
+import app from './app.js';
 run(app);

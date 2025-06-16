@@ -32,7 +32,7 @@ COPY --from=production_build /usr/src/app/package*.json ./
 EXPOSE 3000
 
 # Start the application
-CMD ["lib/main.js"]
+CMD ["lib/bootstrap.js"]
 
 ### Development image (optional)
 FROM build AS development
