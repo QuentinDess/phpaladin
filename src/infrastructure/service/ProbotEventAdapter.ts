@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Probot } from 'probot';
-import { IGithubEventAdapter } from '@/domain/shared/service/IGithubEventAdapter.js';
+import { IGithubEventAdapter } from '@/domain/service/IGithubEventAdapter.js';
 
 export class ProbotEventAdapter implements IGithubEventAdapter {
   public constructor(private readonly probot: Probot) {}
