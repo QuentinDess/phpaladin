@@ -1,5 +1,9 @@
+networks:
+  internal:
 services: 
   phpaladin-probot:
+    networks:
+      - internal
     image: phpaladin:deploy
     container_name: phpaladin-probot
     build:
@@ -11,3 +15,16 @@ services:
       - .env
     volumes:
       - "${PWD}/private-key.pem:/usr/src/app/private-key.pem"
+    depends_on:
+      - docker-in-docker
+  docker-in-docker:
+    networks:
+      - internal
+    container_name: docker-in-docker
+    image: docker:dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    expose:
+      - 2375
+    command: ["dockerd", "-H", "tcp://0.0.0.0:2375"]

@@ -1,5 +1,5 @@
 {
-    "watch": ["src"],
-    "ext": "ts",
-    "exec": "NODE_OPTIONS='--loader ts-node/esm' npx ts-node --project tsconfig.dev.json src/main.ts"
-  }
+  "watch": ["src", "bootstrap.js"],
+  "ext": "ts,js",
+  "exec": "node bootstrap.js"
+}
