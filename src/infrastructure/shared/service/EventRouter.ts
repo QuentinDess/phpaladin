@@ -1,7 +1,6 @@
-import 'reflect-metadata';
 import { IEventRouter } from '@/domain/shared/service/IEventRouter.js';
 import { injectable } from 'inversify';
-import { ProbotEventAdapter } from './ProbotEventAdapter.js';
+import { ProbotEventAdapter } from '@/infrastructure/shared/service/ProbotEventAdapter.js';
 import Docker from 'dockerode';
 import Stream from 'stream';
 

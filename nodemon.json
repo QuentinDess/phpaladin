@@ -1,5 +1,0 @@
-{
-  "watch": ["src", "bootstrap.js"],
-  "ext": "ts,js",
-  "exec": "node bootstrap.js"
-}

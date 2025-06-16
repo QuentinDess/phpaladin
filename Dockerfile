@@ -47,4 +47,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["npx", "nodemon"]
+CMD ["npx", "tsx","watch", "./src/main.ts"]
