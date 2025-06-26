@@ -6,6 +6,7 @@ import { IssueOpenController } from '@/presentation/controller/IssueOpenControll
 import { GenerateRandomWorldUseCase } from '@/application/GenerateRandomWorld/GenerateRandomWorldUseCase.js';
 import { IContainerService } from '@/domain/service/IContainerRunnerService.js';
 import { DockerodeContainerService } from '../service/DockerodeContainerService.js';
+import { JobOrchestratorUseCase } from '@/application/JobOrchestrator/JobOrchestratorUseCase.js';
 
 export class Kernel extends Container {
   public constructor() {
@@ -18,5 +19,6 @@ export class Kernel extends Container {
     this.bind(IssueOpenController).toSelf();
     this.bind<IContainerService>(TYPES.IContainerService).to(DockerodeContainerService);
     this.bind<GenerateRandomWorldUseCase>(GenerateRandomWorldUseCase).toSelf();
+    this.bind<JobOrchestratorUseCase>(JobOrchestratorUseCase).toSelf();
   }
 }
