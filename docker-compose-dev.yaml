@@ -4,7 +4,6 @@ services:
   phpaladin-probot:
     networks:
       - internal
-    image: phpaladin:development
     container_name: phpaladin-probot-dev
     build:
       dockerfile: Dockerfile
