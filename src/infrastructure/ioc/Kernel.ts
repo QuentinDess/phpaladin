@@ -2,11 +2,10 @@ import { Container } from 'inversify';
 import { IEventRouter } from '@/domain/service/IEventRouter.js';
 import { EventRouter } from '@/infrastructure/service/EventRouter.js';
 import { TYPES } from '@/infrastructure/ioc/types.js';
-import { IssueOpenController } from '@/presentation/controller/IssueOpenController.js';
-import { GenerateRandomWorldUseCase } from '@/application/GenerateRandomWorld/GenerateRandomWorldUseCase.js';
 import { IContainerService } from '@/domain/service/IContainerRunnerService.js';
 import { DockerodeContainerService } from '../service/DockerodeContainerService.js';
 import { JobOrchestratorUseCase } from '@/application/JobOrchestrator/JobOrchestratorUseCase.js';
+import { PullRequestOpenController } from '@/presentation/controller/PullRequestOpenController.js';
 
 export class Kernel extends Container {
   public constructor() {
@@ -16,9 +15,8 @@ export class Kernel extends Container {
 
   private configureDependencies(): void {
     this.bind<IEventRouter>(TYPES.IEventRouter).to(EventRouter);
-    this.bind(IssueOpenController).toSelf();
+    this.bind(PullRequestOpenController).toSelf();
     this.bind<IContainerService>(TYPES.IContainerService).to(DockerodeContainerService);
-    this.bind<GenerateRandomWorldUseCase>(GenerateRandomWorldUseCase).toSelf();
     this.bind<JobOrchestratorUseCase>(JobOrchestratorUseCase).toSelf();
   }
 }

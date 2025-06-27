@@ -1,4 +1,3 @@
-import { IGithubContextDtoInput } from '@/application/Github/IGithubContextDtoInput.js';
 import { JobOrchestratorUseCase } from '@/application/JobOrchestrator/JobOrchestratorUseCase.js';
 import { GithubContextAdapter } from '@/infrastructure/service/GithubContextAdapter.js';
 import { inject, injectable } from 'inversify';
@@ -12,7 +11,7 @@ export class PullRequestOpenController {
   public async handle(context: Context): Promise<void> {
     // Handle the issue opened event
     console.log('Pull request opened:', context);
-    const jobOrchestratorInput = GithubContextAdapter.toDto<IGithubContextDtoInput>(context);
+    const jobOrchestratorInput = GithubContextAdapter.buildDto(context);
 
     const result = await this._useCase.execute(jobOrchestratorInput);
 
